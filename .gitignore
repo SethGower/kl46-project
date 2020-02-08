@@ -1,0 +1,3 @@
+build/
+.openocd.log
+compile_commands.json
