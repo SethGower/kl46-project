@@ -34,7 +34,7 @@ AR = $(TOOLCHAIN)ar
 INSTRUCTION_MODE = thumb
 TARGET = main
 TARGET_EXT = elf
-LD_SCRIPT = .//cmsis/$(LINKER_NAME).ld
+LD_SCRIPT = ./cmsis/$(LINKER_NAME).ld
 
 CC_SYMBOLS = -DTOOLCHAIN_GCC_ARM -DNDEBUG
 
@@ -59,10 +59,11 @@ else
 	OBJ_FOLDER = $(strip $(OUT_DIR))/
 endif
 
-COMPILER_OPTIONS  = -g -ggdb -Os -Wall -fno-strict-aliasing
-COMPILER_OPTIONS += -ffunction-sections -fdata-sections -fno-exceptions -fno-delete-null-pointer-checks
+COMPILER_OPTIONS  = -g -ggdb -O0 -Wall -fno-strict-aliasing
+COMPILER_OPTIONS += -ffunction-sections -fdata-sections -fno-exceptions
 COMPILER_OPTIONS += -fmessage-length=0 -fno-builtin -m$(INSTRUCTION_MODE)
 COMPILER_OPTIONS += -mcpu=$(CPU) -MMD -MP $(CC_SYMBOLS)
+COMPILER_OPTIONS += -fno-delete-null-pointer-checks -mthumb
 
 DEPEND_OPTS = -MF $(OBJ_FOLDER)$(@F:.o=.d)
 
