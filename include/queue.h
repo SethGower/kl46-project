@@ -11,8 +11,7 @@ typedef struct {
     uint8_t numElements;
 } queue_t;
 
-void initQueue(char *buffer, queue_t *record,
-               uint8_t bufferSize);
+void initQueue(char *buffer, queue_t *record, uint8_t bufferSize);
 
 void enqueue(char character, queue_t *record);
 char dequeue(queue_t *record);

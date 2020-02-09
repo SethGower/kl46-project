@@ -1,6 +1,5 @@
 #include "queue.h"
 #include <errno.h>
-#include "queue.h"
 
 void initQueue(char *buffer, queue_t *record, uint8_t bufferSize) {
     record->inPtr = record->outPtr = record->buffStart = buffer;
@@ -21,15 +20,15 @@ void enqueue(char character, queue_t *record) {
     }
     errno = retVal;
 }
-char dequeue(queue_t *record){
+char dequeue(queue_t *record) {
     char retVal = 0;
-    if (record->numElements == 0){
+    if (record->numElements == 0) {
         errno = 1;
-    }else{
+    } else {
         retVal = *record->outPtr++;
         record->numElements--;
         errno = 0;
-        if (record->outPtr == record->buffPast){
+        if (record->outPtr == record->buffPast) {
             record->outPtr = record->buffStart;
         }
     }
