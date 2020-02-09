@@ -1,7 +1,7 @@
 #include "main.h"
 #include "MKL46Z4.h"
-#include "segmentLCD.h"
 #include "queue.h"
+#include "segmentLCD.h"
 #include <errno.h>
 
 void delay(void);
@@ -10,6 +10,7 @@ int main(void) {
     queue_t record = {0};
     SegLCD_Init();
     initQueue(buff, &record, 20);
+    SegLCD_DisplayHex(getChar());
 }
 void delay(void) {
     volatile unsigned int i, j;
