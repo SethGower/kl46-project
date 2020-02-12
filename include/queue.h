@@ -2,6 +2,8 @@
 #define _QUEUE_H
 #include <stdint.h>
 
+#define EXIT_SUCCESS 0
+#define EXIT_FAILURE 1
 typedef struct {
     char *inPtr;
     char *outPtr;
