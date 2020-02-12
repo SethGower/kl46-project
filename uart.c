@@ -62,14 +62,17 @@ void Init_UART0_IRQ(void) {
     UART0->C2 = UART0_C2_T_RI;
 }
 void UART0_IRQHandler(void) {
-    SegLCD_DisplayHex(0x45);
     __asm("CPSID I");
-    if (UART0->C2 & UART0_C2_TIE_MASK) {
-        if (UART0->S1 & UART0_S1_TDRE_MASK) {
-            if (dequeue((char *)(&UART0->D), &TxRecord))
+    /* checks if a transmit interrupt has been requested */
+    if (UART0->C2 & UART0_C2_TIE_MASK) { 
+        /* checks if the transmit buffer is empty */
+        if (UART0->S1 & UART0_S1_TDRE_MASK) { 
+            if (dequeue((char *)(&UART0->D), &TxRecord) == EXIT_FAILURE){
                 UART0->C2 = UART0_C2_T_RI;
+            }
         }
     }
+    /* checks if the receive buffer is full */
     if (UART0->S1 & UART0_S1_RDRF_MASK) {
         enqueue(UART0->D, &RxRecord);
     }
@@ -82,6 +85,8 @@ void putChar(char c) {
         success = enqueue(c, &TxRecord);
         __asm("CPSIE I");
     } while (success);
+    /* requests the interrupt */
+	UART0->C2 = UART0_C2_TI_RI;
 }
 char getChar() {
     char character;
