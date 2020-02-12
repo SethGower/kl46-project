@@ -30,17 +30,17 @@ void Init_UART0_IRQ(void) {
     SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK;
 
     /* Connect Port A pin 1 to UART0 Rx */
-    PORTA->PCR[1] = PORT_PCR_SET_PTA1_UART0_RX;
+    PORTA->PCR[1] = PORT_PCR_SET_PTA_UART0_TR;
 
     /* Connect Port A pin 2 to UART0 Tx */
-    PORTA->PCR[2] = PORT_PCR_SET_PTA2_UART0_TX;
+    PORTA->PCR[2] = PORT_PCR_SET_PTA_UART0_TR;
 
     /* Disable UART0 Receiver and Transmitter */
     UART0->C2 &= ~UART0_C2_T_R;
 
     /* Set Interrupt for UART0 */
 
-#if 0
+#if 1
     NVIC->IP[3] |= NVIC_IPR_UART0_MASK;    /* Sets priority to level 3 */
     NVIC->ICPR[0] |= NVIC_ICPR_UART0_MASK; /* Clears the Interrupts to UART0 */
     NVIC->ISER[0] |= NVIC_ISER_UART0_MASK; /* Unmask UART0 interrupts */
@@ -54,7 +54,7 @@ void Init_UART0_IRQ(void) {
     UART0->BDH = UART0_BDH_9600; /* Sets the High byte of 9600 baud */
     UART0->BDL = UART0_BDL_9600; /* sets the low byte of 9600 baud*/
     UART0->C1 = UART0_8N1;       /* sets the 8N1 mode */
-    UART0->C3 = UART0_C3_TXINV;
+    UART0->C3 = UART0_C3_NO_TXINV;
     UART0->C4 = UART0_C4_NO_MATCH_OSR_16;
     UART0->C5 = UART0_C5_NO_DMA_SSR_SYNC;
     UART0->S1 = UART0_S1_CLEAR_FLAGS;

@@ -10,10 +10,8 @@ char getChar(void);
 
 #define TRxQSize 40
 
-#define PORT_PCR_SET_PTA1_UART0_RX                                             \
-    (PORT_PCR_ISF_MASK | PORT_PCR_MUX_SELECT_2_MASK)
 #define PORT_PCR_MUX_SELECT_2_MASK (2u << PORT_PCR_MUX_SHIFT)
-#define PORT_PCR_SET_PTA2_UART0_TX                                             \
+#define PORT_PCR_SET_PTA_UART0_TR                                             \
     (PORT_PCR_ISF_MASK | PORT_PCR_MUX_SELECT_2_MASK)
 #define SIM_SOPT2_UART0SRC_MCGPLLCLK (1 << SIM_SOPT2_UART0SRC_SHIFT)
 #define SIM_SOPT5_UART0_EXTERN_MASK_CLEAR                                      \
@@ -32,8 +30,9 @@ char getChar(void);
 #define UART0_BDL_9600 (0x38u)
 #define UART0_8N1 0x00
 #define UART0_C3_TXINV 0x10
+#define UART0_C3_NO_TXINV 0x00
 #define UART0_C4_NO_MATCH_OSR_16 0x0Fu
 #define UART0_C5_NO_DMA_SSR_SYNC 0x00
 #define UART0_S1_CLEAR_FLAGS 0x1Fu
-#define UART0_S2_NO_RXINV_BRK10_NO_LBKDETECT_CLEAR_FLAGS 0xC0
+#define UART0_S2_NO_RXINV_BRK10_NO_LBKDETECT_CLEAR_FLAGS 0xC0u
 #endif
