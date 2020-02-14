@@ -40,7 +40,7 @@ void Init_UART0_IRQ(void) {
 
     /* Set Interrupt for UART0 */
 
-#if 1
+#if 0
     NVIC->IP[3] |= NVIC_IPR_UART0_MASK;    /* Sets priority to level 3 */
     NVIC->ICPR[0] |= NVIC_ICPR_UART0_MASK; /* Clears the Interrupts to UART0 */
     NVIC->ISER[0] |= NVIC_ISER_UART0_MASK; /* Unmask UART0 interrupts */
@@ -64,10 +64,10 @@ void Init_UART0_IRQ(void) {
 void UART0_IRQHandler(void) {
     __asm("CPSID I");
     /* checks if a transmit interrupt has been requested */
-    if (UART0->C2 & UART0_C2_TIE_MASK) { 
+    if (UART0->C2 & UART0_C2_TIE_MASK) {
         /* checks if the transmit buffer is empty */
-        if (UART0->S1 & UART0_S1_TDRE_MASK) { 
-            if (dequeue((char *)(&UART0->D), &TxRecord) == EXIT_FAILURE){
+        if (UART0->S1 & UART0_S1_TDRE_MASK) {
+            if (dequeue((char *)(&UART0->D), &TxRecord) == EXIT_FAILURE) {
                 UART0->C2 = UART0_C2_T_RI;
             }
         }
@@ -86,7 +86,7 @@ void putChar(char c) {
         __asm("CPSIE I");
     } while (success);
     /* requests the interrupt */
-	UART0->C2 = UART0_C2_TI_RI;
+    UART0->C2 = UART0_C2_TI_RI;
 }
 char getChar() {
     char character;
@@ -98,4 +98,22 @@ char getChar() {
     } while (success);
 
     return character;
+}
+void putNum(uint32_t number, uint8_t base) {
+    int num = 0;
+    char string[128];
+    int counter = 0;
+
+    do {
+        num = number % base;
+        if (num < 10)
+            num += 0x30;
+        else if (num >= 10 && num < 36)
+            num += 0x37;
+        string[counter++] = num;
+    } while (number /= base);
+
+    for (counter -= 1; counter >= 0; counter--) {
+        putChar(string[counter]);
+    }
 }

@@ -7,6 +7,7 @@ void UART0_IRQHandler(void);
 void Init_UART0_IRQ(void);
 void putChar(char c);
 char getChar(void);
+void putNum(uint32_t number, uint8_t base);
 
 #define TRxQSize 40
 
