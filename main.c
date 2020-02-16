@@ -6,7 +6,13 @@
 #include "tsi.h"
 
 int main(void) {
-    SegLCD_Init();
     Init_UART0_IRQ();
-    putNum(1001, 16);
+    SegLCD_Init();
+    Init_TSI_IRQ();
+    uint8_t barPercentage;
+    while(1){
+        barPercentage = readPercentage();
+        SegLCD_DisplayDecimal(barPercentage);
+    }
+
 }
