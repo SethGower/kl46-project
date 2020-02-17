@@ -2,18 +2,20 @@
 #define _UART_H_
 #include "MKL46Z4.h"
 #include "queue.h"
-#include <errno.h>
 void UART0_IRQHandler(void);
 void Init_UART0_IRQ(void);
 void putChar(char c);
 char getChar(void);
-void putNum(uint32_t number, uint8_t base);
+void putNum(int number, uint8_t digits, uint8_t base);
+int getString(char string[80]);
+void putString(char *string);
+uint32_t strlen(const char *string);
+int strcmp(const char *a, const char *b);
 
 #define TRxQSize 40
 
 /* #define PORT_PCR_MUX_SELECT_2_MASK (2u << PORT_PCR_MUX_SHIFT) */
-#define PORT_PCR_SET_PTA_UART0_TR                                             \
-    (PORT_PCR_ISF_MASK | PORT_PCR_MUX(2))
+#define PORT_PCR_SET_PTA_UART0_TR (PORT_PCR_ISF_MASK | PORT_PCR_MUX(2))
 #define SIM_SOPT2_UART0SRC_MCGPLLCLK (1 << SIM_SOPT2_UART0SRC_SHIFT)
 #define SIM_SOPT5_UART0_EXTERN_MASK_CLEAR                                      \
     (SIM_SOPT5_UART0ODE_MASK | SIM_SOPT5_UART0RXSRC_MASK |                     \

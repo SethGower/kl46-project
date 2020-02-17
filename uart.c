@@ -99,11 +99,17 @@ char getChar() {
 
     return character;
 }
-void putNum(uint32_t number, uint8_t base) {
+void putNum(int number, uint8_t digits, uint8_t base) {
     int num = 0;
     char string[128];
     int counter = 0;
+    int8_t i = 0;
+    int8_t negative = 0;
 
+    if (number < 0) {
+        negative = 1;
+        number *= -1;
+    }
     do {
         num = number % base;
         if (num < 10)
@@ -113,7 +119,54 @@ void putNum(uint32_t number, uint8_t base) {
         string[counter++] = num;
     } while (number /= base);
 
+    if (negative)
+        putChar('-');
+    for (i = digits - counter; i > 0; i--) {
+        putChar('0');
+    }
     for (counter -= 1; counter >= 0; counter--) {
         putChar(string[counter]);
     }
+}
+void putString(char *string) {
+    uint8_t i = 0;
+    while (string[i]) {
+        putChar(string[i++]);
+    }
+}
+int getString(char string[80]) {
+    char letter;
+    uint8_t numLetters = 0;
+    while ((letter = getChar()) != '\r') {
+        putChar(letter);
+        if (letter != 0x8 && letter != 0x7f) {
+            string[numLetters++] = letter;
+        } else {
+            putChar(0x8);
+            numLetters--;
+        }
+    }
+    string[numLetters] = 0;
+    return numLetters;
+}
+uint32_t strlen(const char *string) {
+    uint32_t count = 0;
+    while (string[count]) {
+        count++;
+    }
+    return count;
+}
+int strcmp(const char *a, const char *b) {
+    int counter = 0;
+    int aLen = strlen(a);
+    int bLen = strlen(b);
+    if (aLen == bLen) {
+        for (counter = 0; counter < aLen; counter++) {
+            if (a[counter] != b[counter])
+                return a[counter] - b[counter];
+        }
+    } else {
+        return 1;
+    }
+    return 0;
 }
