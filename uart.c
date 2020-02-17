@@ -40,15 +40,9 @@ void Init_UART0_IRQ(void) {
 
     /* Set Interrupt for UART0 */
 
-#if 0
-    NVIC->IP[3] |= NVIC_IPR_UART0_MASK;    /* Sets priority to level 3 */
-    NVIC->ICPR[0] |= NVIC_ICPR_UART0_MASK; /* Clears the Interrupts to UART0 */
-    NVIC->ISER[0] |= NVIC_ISER_UART0_MASK; /* Unmask UART0 interrupts */
-#else
     NVIC_SetPriority(UART0_IRQn, 3);
     NVIC_ClearPendingIRQ(UART0_IRQn);
     NVIC_EnableIRQ(UART0_IRQn);
-#endif
 
     /* Sets UART0 to 9600, 8N1 */
     UART0->BDH = UART0_BDH_9600; /* Sets the High byte of 9600 baud */
