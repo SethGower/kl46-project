@@ -9,6 +9,7 @@ char RxBuffer[TRxQSize];
 char TxBuffer[TRxQSize];
 
 void Init_UART0_IRQ(void) {
+    __asm("CPSID I");
     /* Initializes the Queues to use for interrupt based communication */
     initQueue(&RxRecord, RxBuffer, TRxQSize);
     initQueue(&TxRecord, TxBuffer, TRxQSize);
@@ -40,7 +41,7 @@ void Init_UART0_IRQ(void) {
 
     /* Set Interrupt for UART0 */
 
-    NVIC_SetPriority(UART0_IRQn, 3);
+    NVIC_SetPriority(UART0_IRQn, 1);
     NVIC_ClearPendingIRQ(UART0_IRQn);
     NVIC_EnableIRQ(UART0_IRQn);
 
@@ -54,6 +55,7 @@ void Init_UART0_IRQ(void) {
     UART0->S1 = UART0_S1_CLEAR_FLAGS;
     UART0->S2 = UART0_S2_NO_RXINV_BRK10_NO_LBKDETECT_CLEAR_FLAGS;
     UART0->C2 = UART0_C2_T_RI;
+    __asm("CPSIE I");
 }
 void UART0_IRQHandler(void) {
     __asm("CPSID I");
