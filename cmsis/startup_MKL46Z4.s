@@ -127,7 +127,7 @@ __isr_vector:
     .long   LPTimer_IRQHandler      /* LPTimer interrupt */
     .long   LCD_IRQHandler          /* Segment LCD Interrupt*/
     .long   PORTA_IRQHandler        /* Port A interrupt */
-    .long   PORTD_IRQHandler        /* Port D interrupt */
+    .long   GPIO_IRQHandler        /* Port D interrupt */
 
     .size    __isr_vector, . - __isr_vector
 
@@ -219,7 +219,7 @@ Reset_Handler:
     def_default_handler     LPTimer_IRQHandler
     def_default_handler     LCD_IRQHandler
     def_default_handler     PORTA_IRQHandler
-    def_default_handler     PORTD_IRQHandler
+    def_default_handler     GPIO_IRQHandler
 
 
 
