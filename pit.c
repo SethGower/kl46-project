@@ -7,7 +7,7 @@ static uint32_t count;
 void Init_PIT_IRQ(void) {
     SIM->SCGC6 |= SIM_SCGC6_PIT_MASK;             /* enables clock for PIT */
     PIT->CHANNEL[0].TCTRL &= ~PIT_TCTRL_TEN_MASK; /* disables timer */
-    NVIC_SetPriority(PIT_IRQn, 3);                /* sets interrupt priority */
+    NVIC_SetPriority(PIT_IRQn, 1);                /* sets interrupt priority */
     NVIC_ClearPendingIRQ(PIT_IRQn);               /* clear pending interrupts */
     NVIC_EnableIRQ(PIT_IRQn);                     /* enables interrupt */
     PIT->MCR = PIT_MCR_FRZ_MASK;                  /* enables debug freezing */
@@ -23,7 +23,10 @@ void PIT_IRQHandler(void) {
 }
 
 void enableTimer(void) { runStopwatch = 1; }
-void disableTimer(void) { runStopwatch = 0; }
+void disableTimer(void) {
+    runStopwatch = 0;
+    resetTimer();
+}
 uint32_t getTimer(void) { return count; }
 void setCountValue(uint32_t milliseconds) {
     if (milliseconds > HIGHEST_MS)
@@ -31,3 +34,4 @@ void setCountValue(uint32_t milliseconds) {
     uint32_t value = milliseconds * 23490;
     PIT->CHANNEL[0].LDVAL = value;
 }
+void resetTimer(void) { count = 0; }

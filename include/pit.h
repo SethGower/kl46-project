@@ -12,5 +12,6 @@ void PIT_IRQHandler(void);
 void enableTimer(void);
 void disableTimer(void);
 uint32_t getTimer(void);
+void resetTimer(void);
 void setCountValue(uint32_t milliseconds);
 #endif
